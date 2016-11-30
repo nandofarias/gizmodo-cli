@@ -3,8 +3,8 @@ const FeedParser = require('feedparser'),
 request = require('request'),
 readline = require('readline'),
 Promise = require('bluebird'),
-ProgressBar = require('progress'),
 cheerio = require('cheerio');
+
 
 //----------- readline configuration -----------
 const rl = readline.createInterface({
