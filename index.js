@@ -2,7 +2,8 @@ const FeedParser = require('feedparser'),
 request = require('request'),
 readline = require('readline'),
 Promise = require('bluebird'),
-ProgressBar = require('progress');
+ProgressBar = require('progress'),
+cheerio = require('cheerio');
 
 //----------- readline configuration -----------
 const rl = readline.createInterface({
@@ -18,13 +19,13 @@ function fetch(){
     req = request('http://gizmodo.uol.com.br/feed/'),
     feedparser = new FeedParser();
 
-    req.on('error', done);
+    req.on('error', reject);
     req.on('response', res => {
-      if (res.statusCode != 200) return req.emit('error', new Error('Bad status code'));
+      if (res.statusCode != 200) reject(new Error('Bad status code'));
       req.pipe(feedparser);
     });
 
-    feedparser.on('error', done);
+    feedparser.on('error', reject);
     feedparser.on('readable', () => {
       let post;
       while(post = feedparser.read()) {
@@ -38,9 +39,24 @@ function fetch(){
   });
 }
 
-function fetchPost(index){
-  console.log(posts[index]);
+function fetchPost(link){
+  return new Promise((resolve, reject) => {
+    const req = request(link);
+    req.on('error', reject);
+    req.on('response', res => {
+      if(res.statusCode != 200) reject(new Error('Bad status code'));
+      let rawData = '';
+      res.on('data', chunk =>  rawData += chunk);
+      res.on('end', () => resolve(rawData));
+    });
+  });
 }
+
+function getContent(html) {
+  const $ = cheerio.load(html);
+  console.log($("#maincontent").text());
+}
+
 
 function done(err) {
   if (err) {
@@ -53,8 +69,8 @@ function done(err) {
 
 fetch().then(posts => {
   rl.question('What post do you want do read? ', answer => {
-    console.log("Link: " + posts[answer].link);
+    fetchPost(posts[answer].link).then(getContent).catch(done);
     rl.close();
   });
-});
+}).catch(done);
 
