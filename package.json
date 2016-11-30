@@ -1,7 +1,7 @@
 {
   "name": "gizmodo-cli",
   "version": "1.0.0",
-  "description": "Read all the news from Gizmodo Brasil without leaving your shell",
+  "description": "Read all the news from Gizmodo Brasil without leaving your terminal",
   "main": "./bin/index.js",
   "scripts": {
     "test": "npm run single-test"
