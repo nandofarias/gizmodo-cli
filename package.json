@@ -1,0 +1,21 @@
+{
+  "name": "gizmodo-cli",
+  "version": "1.0.0",
+  "description": "Read all the news from Gizmodo Brasil without leaving your shell",
+  "main": "index.js",
+  "scripts": {
+    "test": "npm run single-test"
+  },
+  "keywords": [
+    "gizmodo",
+    "brasil",
+    "cli"
+  ],
+  "author": "nandofarias <nandofarias@me.com>",
+  "license": "ISC",
+  "dependencies": {
+    "feedparser": "^1.1.5",
+    "progress": "^1.1.8",
+    "request": "^2.79.0"
+  }
+}
