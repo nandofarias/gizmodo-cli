@@ -14,6 +14,7 @@
   "author": "nandofarias <nandofarias@me.com>",
   "license": "ISC",
   "dependencies": {
+    "cheerio": "^0.22.0",
     "feedparser": "^1.1.5",
     "progress": "^1.1.8",
     "request": "^2.79.0"
