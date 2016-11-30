@@ -1,3 +1,4 @@
+#! /usr/bin/env node
 const FeedParser = require('feedparser'),
 request = require('request'),
 readline = require('readline'),
@@ -54,7 +55,7 @@ function fetchPost(link){
 
 function getContent(html) {
   const $ = cheerio.load(html);
-  console.log($("#maincontent").text());
+  console.log($("#maincontent p").text());
 }
 
 
