@@ -55,7 +55,8 @@ function fetchPost(link){
 
 function getContent(html) {
   const $ = cheerio.load(html);
-  console.log($("#maincontent p").text());
+  $('#maincontent a').remove();
+  console.log("\n" + $("#maincontent p").text());
 }
 
 
@@ -69,7 +70,7 @@ function done(err) {
 };
 
 fetch().then(posts => {
-  rl.question('What post do you want do read? ', answer => {
+  rl.question('\n-- Qual post voce gostaria de ler hoje? ', answer => {
     fetchPost(posts[answer].link).then(getContent).catch(done);
     rl.close();
   });
