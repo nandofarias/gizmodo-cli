@@ -3,7 +3,8 @@ const FeedParser = require('feedparser'),
 request = require('request'),
 readline = require('readline'),
 Promise = require('bluebird'),
-cheerio = require('cheerio');
+cheerio = require('cheerio'),
+htmlToText = require('html-to-text');
 
 
 //----------- readline configuration -----------
@@ -55,8 +56,9 @@ function fetchPost(link){
 
 function getContent(html) {
   const $ = cheerio.load(html);
-  $('#maincontent a').remove();
-  console.log("\n" + $("#maincontent p").text());
+  $('#maincontent a[target=_blank]').parent().remove();
+  const text = htmlToText.fromString($('#maincontent p'));
+  console.log("\n" + text);
 }
 
 
