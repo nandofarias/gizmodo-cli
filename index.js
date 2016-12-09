@@ -4,8 +4,8 @@ request = require('request'),
 readline = require('readline'),
 Promise = require('bluebird'),
 cheerio = require('cheerio'),
-htmlToText = require('html-to-text');
-
+htmlToText = require('html-to-text'),
+program = require('commander');
 
 //----------- readline configuration -----------
 const rl = readline.createInterface({
@@ -71,10 +71,30 @@ function done(err) {
   process.exit();
 };
 
-fetch().then(posts => {
-  rl.question('\n-- Qual post voce gostaria de ler hoje? ', answer => {
-    fetchPost(posts[answer].link).then(getContent).catch(done);
-    rl.close();
-  });
-}).catch(done);
 
+// ------ Command Line configuration
+
+program.version('1.2.1');
+
+program.command('list').description('list the last 20 news').action(list);
+program.command('read [link]').description('display the content of an specific post').action(read);
+
+program.parse(process.argv);
+
+if(process.argv.length <= 2) list();
+
+function list() {
+  fetch().then(posts => {
+    rl.question('\n-- Qual post voce gostaria de ler hoje? ', answer => {
+      fetchPost(posts[answer].link).then(getContent).catch(done);
+      rl.close();
+    });
+  }).catch(done);
+}
+
+function read(link) {
+  fetchPost(link).then(content => {
+    getContent(content)
+    done();
+  }).catch(done);
+}
