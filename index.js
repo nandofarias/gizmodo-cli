@@ -56,8 +56,8 @@ function fetchPost(link){
 
 function getContent(html) {
   const $ = cheerio.load(html);
-  $('#maincontent a[target=_blank]').parent().remove();
-  $('img[alt=divisoriagizmodo]').parent().remove();
+  $('#maincontent p').eq(1).remove();
+  $('img[alt=divisoriagizmodo]').remove();
   const text = htmlToText.fromString($('#maincontent p'));
   console.log("\n" + text);
 }
